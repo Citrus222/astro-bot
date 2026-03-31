@@ -3,11 +3,11 @@ import logging
 from aiogram import Bot, Dispatcher
 from config import BOT_TOKEN
 
-from start import router as start_router
-from horoscope import router as horoscope_router
-from tarot import router as tarot_router
-from stone import router as stone_router
-from compatibility import router as compatibility_router
+from handlers.start import router as start_router
+from handlers.horoscope import router as horoscope_router
+from handlers.tarot import router as tarot_router
+from handlers.stone import router as stone_router
+from handlers.compatibility import router as compatibility_router
 
 logging.basicConfig(level=logging.INFO)
 
