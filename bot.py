@@ -1,31 +1,29 @@
-# bot.py
-
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
 from config import BOT_TOKEN
-import database as db
-import start
-import horoscope
-import tarot
-import stone
-import compatibility
+
+from start import router as start_router
+from horoscope import router as horoscope_router
+from tarot import router as tarot_router
+from stone import router as stone_router
+from compatibility import router as compatibility_router
 
 logging.basicConfig(level=logging.INFO)
 
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
+# Подключаем роутеры
+dp.include_router(start_router)
+dp.include_router(horoscope_router)
+dp.include_router(tarot_router)
+dp.include_router(stone_router)
+dp.include_router(compatibility_router)
+
 async def main():
-    db.init_db()
-    bot = Bot(token=BOT_TOKEN)
-    dp = Dispatcher(storage=MemoryStorage())
-
-    dp.include_router(start.router)
-    dp.include_router(horoscope.router)
-    dp.include_router(tarot.router)
-    dp.include_router(stone.router)
-    dp.include_router(compatibility.router)
-
-    print("🔮 AstroUA Bot запущено!")
+    print("✅ Бот запущен!")
+    await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
